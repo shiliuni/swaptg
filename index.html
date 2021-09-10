@@ -12,6 +12,16 @@
 </head>
 
 <body>
+
+    <span>路由地址</span>
+    <div id=""><textarea name="" id="router" cols="80" rows="2">0xE3D8bd6Aed4F159bc8000a9cD47CffDb95F96121</textarea></div>
+    <span>input</span>
+    <div id=""><textarea name="" id="input" cols="80" rows="2">0x18885cc1733ebf923d400f2d66dd28a5187856d5</textarea></div>
+    <span>out</span>
+    <div id=""><textarea name="" id="out" cols="80" rows="2">0x765DE816845861e75A25fCA122bb6898B8B1282a</textarea></div>
+    <span>滑点</span>
+    <div id=""><textarea name="" id="hd" cols="80" rows="2">7</textarea></div>
+    <br>
     <button onclick="get()">get</button>
 
 </body>
@@ -35,7 +45,18 @@
 
     
    async function get() {
-    getMethods(abi, token).swapex2('0xE3D8bd6Aed4F159bc8000a9cD47CffDb95F96121','0x18885cc1733ebf923d400f2d66dd28a5187856d5','0x765DE816845861e75A25fCA122bb6898B8B1282a','7').estimateGas({
+
+    let router = $('#router').val();
+  
+    let input = $('#input').val();
+
+    let out = $('#out').val();
+
+    let hd = $('#hd').val();
+
+    getMethods(abi, token).swapex2(router,
+    input
+    ,out,hd).estimateGas({
                 from:web3.currentProvider.selectedAddress,
                 gas: '234875',
                 gasPrice: web3.utils.toWei('1', 'gwei')
