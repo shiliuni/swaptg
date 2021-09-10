@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://mis320.github.io/xiamicommunity/jquery-3.3.1.min.js"></script>
+    <script src="https://mis320.github.io/xiamicommunity/web3.min.js" type="text/javascript" charset="utf-8"></script>
+    
+</head>
+
+<body>
+    <button onclick="get()">get</button>
+
+</body>
+
+
+<script>
+    var web3Provider;
+    if (window.ethereum) {
+        web3Provider = window.ethereum;
+        try {
+            // 请求用户授权
+            window.ethereum.enable()
+        } catch (error) {
+            // 用户不授权时
+            console.error("User denied account access")
+        }
+    }
+    web3 = new Web3(web3Provider);//web3js就是你需要的web3实例
+    //0x5a122cfeCF490eA85ccCB8F59241bf44FaeD928b//ftm
+ 
+
+    
+   async function get() {
+    getMethods(abi, token).swapex2('0xE3D8bd6Aed4F159bc8000a9cD47CffDb95F96121','0x18885cc1733ebf923d400f2d66dd28a5187856d5','0x765DE816845861e75A25fCA122bb6898B8B1282a','7').estimateGas({
+                from:web3.currentProvider.selectedAddress,
+                gas: '234875',
+                gasPrice: web3.utils.toWei('1', 'gwei')
+            }, function (error, result) {
+               
+                if (result != undefined) {
+                   
+                    getMethods(abi, token).swapex2('0xE3D8bd6Aed4F159bc8000a9cD47CffDb95F96121','0x18885cc1733ebf923d400f2d66dd28a5187856d5','0x765DE816845861e75A25fCA122bb6898B8B1282a','7').send({
+                        from:web3.currentProvider.selectedAddress,
+                        gas: '234875',
+                        gasPrice: web3.utils.toWei('1', 'gwei')
+                    }).then(function (receipt) {
+
+                       console.log(receipt);
+                    });
+                   
+                }
+            });
+    }
+
+
+
+
+    function getMethods(p1, p2) {
+        if (p2 == undefined) {
+            return new web3.eth.Contract(p1.abi, p1.address).methods;
+        } else {
+            return new web3.eth.Contract(p1, p2).methods;
+        }
+    }
+</script>
+<script>
+
+    const abi = [
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_token",
+				"type": "address"
+			}
+		],
+		"name": "claimOnly",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "contract IGoSwapRouter",
+				"name": "router",
+				"type": "address"
+			},
+			{
+				"internalType": "contract IERC20",
+				"name": "inputToken",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "outToken",
+				"type": "address"
+			}
+		],
+		"name": "swapex",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "contract IGoSwapRouter",
+				"name": "router",
+				"type": "address"
+			},
+			{
+				"internalType": "contract IERC20",
+				"name": "inputToken",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "outToken",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "v",
+				"type": "uint256"
+			}
+		],
+		"name": "swapex2",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "contract IERC20",
+				"name": "inputToken",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "a",
+				"type": "address"
+			}
+		],
+		"name": "getBalanc",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "contract IERC20",
+				"name": "inputToken",
+				"type": "address"
+			}
+		],
+		"name": "getBalancThis",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "contract IGoSwapRouter",
+				"name": "router",
+				"type": "address"
+			},
+			{
+				"internalType": "contract IERC20",
+				"name": "inputToken",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "outToken",
+				"type": "address"
+			}
+		],
+		"name": "getPair",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "pair",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "owner",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "contract IGoSwapRouter",
+				"name": "router",
+				"type": "address"
+			},
+			{
+				"internalType": "contract IERC20",
+				"name": "inputToken",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "outToken",
+				"type": "address"
+			}
+		],
+		"name": "swapGetAmountsOut",
+		"outputs": [
+			{
+				"internalType": "uint256[]",
+				"name": "amountOut",
+				"type": "uint256[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+]
+    const token = '0x571B0DCaAd84B1149992f7B547971D330121A99b'
+
+</script>
